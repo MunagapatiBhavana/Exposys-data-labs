@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mass Mail Dispatcher</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <img class="logo-image" src="https://res.cloudinary.com/db94auffn/image/upload/v1716107709/4048925-200_mtdnmy.png" alt="logo">
+        </div>
+        <div class="navbar-right">
+            <a class="a-element" href="#home-section">HOME</a>
+            <a class="a-element" href="#write-email-section">WRITE EMAIL</a>
+            <a class="a-element" href="#valid-emails-section">VALID EMAILS</a>
+            <a class="a-element" href="#invalid-emails-section">INVALID EMAILS</a>
+        </div>
+    </div>
+    <div class="home" id="home-section">
+        <div class="home-left">
+            <div class="select animated fadeInDown delay-4s">
+                <h1 id="head">Mass-Mail Dispatcher</h1>
+                <input type="file" id="upload" accept="text/csv">
+            </div>
+            <div class="mailInfo" id="write-email-section">
+                <form id="emailForm" onsubmit="sendEmail(); reset(); return false;">
+                    <h2 id="box-heading">WRITE YOUR EMAIL HERE</h2>
+                    <p><input type="email" id="from" placeholder="From (Email Id)" required></p>
+                    <p><input type="text" id="subject" placeholder="Subject" required></p>
+                    <p><textarea id="msg" rows="12" cols="12" placeholder="Body" required></textarea></p>
+                    <p><button type="submit" id="submit" style="font-weight: bold;">Send</button></p>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="tables">
+            <div class="valtab" id="valid-emails-section">
+                <table id="val">
+                    <tr>
+                        <td>
+                            <h2>VALID EMAILS: <span id="valcount">0</span></h2>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="invaltab" id="invalid-emails-section">
+                <table id="inval">
+                    <tr>
+                        <td>
+                            <h2>INVALID EMAILS: <span id="invalcount">0</span></h2>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <script src="http://smtpjs.com/v3/smtp.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+    <script src="main.js"></script>
+    <script>
+        new WOW().init();
+
+        function sendEmail() {
+            Email.send({
+                Host: "smtp.yourisp.com",
+                Username: "username",
+                Password: "password",
+                To: 'them@website.com',
+                From: document.getElementById("from").value,
+                Subject: document.getElementById("subject").value,
+                Body: document.getElementById("msg").value,
+            }).then(function (message) {
+                alert("Mail has been sent");
+            });
+        }
+
+        document.querySelectorAll('.a-element').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+    <a href="#" id="scroll-top-btn"><i class="fas fa-arrow-up"></i></a>
+</body>
+</html>
